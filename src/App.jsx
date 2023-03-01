@@ -5,14 +5,16 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import noteAPI from "./services/note.service";
 import Note from "./components/Note";
+import {CircularProgress } from '@mui/material';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const getNotes = async () => {
     try {
       const data = (await noteAPI.getAll()).data.notes;
       setNotes(data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -25,17 +27,7 @@ const App = () => {
   const deleteNote = async (id) => {
     try {
       await noteAPI.delete(id);
-    console.log("deleted");
-      getNotes();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteAll = async () => {
-    try {
-      await noteAPI.deleteAll();
-    console.log("deletedALL");
+      console.log("deleted");
       getNotes();
     } catch (error) {
       console.log(error);
@@ -55,19 +47,21 @@ const App = () => {
     <div className="app">
       <Header />
       <InputArea addNote={addNote} />
-      {notes.map((note, i) => (
-        <Note
-          key={i}
-          id={note._id}
-          title={note.title}
-          text={note.text}
-          deleteNote={deleteNote}
-        />
-      ))}
-
-      <Footer/>
+      {loading
+        ? <div className="spiner">< CircularProgress /></div>
+        : notes.map((note, i) => (
+            <Note
+              key={i}
+              id={note._id}
+              title={note.title}
+              text={note.text}
+              deleteNote={deleteNote}
+            />
+          ))}
+      <Footer />
     </div>
   );
 };
 
 export default App;
+

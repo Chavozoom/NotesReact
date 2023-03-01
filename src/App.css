@@ -3,13 +3,19 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 html {
   font-family: "Montserrat", sans-serif;
 }
+
 body {
   background: #eee;
   padding: 0 16px;
   background-color: #ffff;
-background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+}
 
+.spiner{
+  text-align: center;
+  margin: auto;
 }
